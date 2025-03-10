@@ -1,2 +1,2 @@
-# react-native-restaurant-app
-Restaurant Reservatian Mobile App
+# Restaurant Reservatian Mobile App
+
