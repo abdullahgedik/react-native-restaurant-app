@@ -14,6 +14,7 @@ import AdminPanelScreen from './screens/AdminPanelScreen';
 import AdminReservationsScreen from './screens/AdminReservationsScreen';
 import AdminRestaurantInfoScreen from './screens/AdminRestaurantInfoScreen';
 import AddRestaurantScreen from './screens/AddRestaurantScreen';
+import ManageRestaurantsScreen from './screens/ManageRestaurantsScreen';
 import { RestaurantProvider } from './contexts/RestaurantContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import SplashScreen from './screens/SplashScreen';
@@ -41,6 +42,11 @@ function AdminStackScreen() {
         name="AdminRestaurantInfo"
         component={AdminRestaurantInfoScreen}
         options={{ title: 'Restoran Bilgileri' }}
+      />
+      <AdminStack.Screen
+        name="ManageRestaurants"
+        component={ManageRestaurantsScreen}
+        options={{ title: 'Restoranlar' }}
       />
       <AdminStack.Screen
         name="AddRestaurant"

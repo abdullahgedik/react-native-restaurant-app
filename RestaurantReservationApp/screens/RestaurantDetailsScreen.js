@@ -4,8 +4,9 @@ import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function RestaurantDetailsScreen({ route, navigation }) {
   const { restaurant } = route.params;
-  const { favorites, toggleFavorite, addReservation } = useRestaurant();
+  const { favorites, toggleFavorite, reviews } = useRestaurant();
   const isFavorite = favorites.some(r => r.id === restaurant.id);
+  const restaurantReviews = reviews.filter(r => r.restaurantId === restaurant.id);
 
   const handleAddFavorite = () => {
     toggleFavorite(restaurant);
@@ -31,6 +32,11 @@ export default function RestaurantDetailsScreen({ route, navigation }) {
         title="Yorum Yap"
         onPress={() => navigation.navigate('Review', { restaurant })}
       />
+      {restaurantReviews.map(r => (
+        <View key={r.id} style={styles.reviewContainer}>
+          <Text style={styles.reviewText}>{r.comment}</Text>
+        </View>
+      ))}
       <View style={styles.buttonSpacing} />
       <Button
         title={isFavorite ? "Favorilerden Çıkar" : "Favorilere Ekle"}
@@ -66,5 +72,16 @@ const styles = StyleSheet.create({
   },
   buttonSpacing: {
     height: 15,
+  },
+  reviewContainer: {
+    alignSelf: 'stretch',
+    backgroundColor: '#f2f2f2',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  reviewText: {
+    fontSize: 14,
+    color: '#333',
   },
 });
