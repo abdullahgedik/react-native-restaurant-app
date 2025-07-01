@@ -6,7 +6,7 @@ import HomeStackScreen from './screens/HomeStackScreen'; // ya da HomeStackScree
 
 // Diğer ekran bileşenlerini import edin:
 import FavoriteRestaurantsScreen from './screens/FavoriteRestaurantsScreen';
-import MyReservationsScreen from './screens/MyReservationsScreen';
+import ReservationsStackScreen from './screens/ReservationsStackScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
@@ -27,7 +27,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Reservations"
-          component={MyReservationsScreen}
+          component={ReservationsStackScreen}
           options={{ title: 'Rezervasyonlarım' }}
         />
         <Tab.Screen
