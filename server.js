@@ -11,6 +11,7 @@ let restaurants = [
 ];
 
 let reservations = [];
+let reviews = [];
 
 app.get('/restaurants', (req, res) => {
   res.json(restaurants);
@@ -31,6 +32,16 @@ app.put('/restaurants/:id', (req, res) => {
   res.json(restaurants[index]);
 });
 
+app.delete('/restaurants/:id', (req, res) => {
+  const { id } = req.params;
+  const index = restaurants.findIndex(r => r.id === id);
+  if (index === -1) return res.status(404).end();
+  restaurants.splice(index, 1);
+  reservations = reservations.filter(r => r.restaurantId !== id);
+  reviews = reviews.filter(rv => rv.restaurantId !== id);
+  res.status(204).end();
+});
+
 app.get('/reservations', (req, res) => {
   res.json(reservations);
 });
@@ -39,6 +50,16 @@ app.post('/reservations', (req, res) => {
   const newReservation = { id: String(Date.now()), ...req.body };
   reservations.push(newReservation);
   res.status(201).json(newReservation);
+});
+
+app.get('/reviews', (req, res) => {
+  res.json(reviews);
+});
+
+app.post('/reviews', (req, res) => {
+  const newReview = { id: String(Date.now()), ...req.body };
+  reviews.push(newReview);
+  res.status(201).json(newReview);
 });
 
 app.listen(3001, () => console.log('API running on port 3001')); 

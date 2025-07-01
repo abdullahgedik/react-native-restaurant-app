@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useRestaurant } from '../contexts/RestaurantContext';
 
-export default function AdminRestaurantInfoScreen() {
+export default function AdminRestaurantInfoScreen({ route }) {
   const { restaurants, updateRestaurant } = useRestaurant();
-  const restaurant = restaurants[0] || { name: '', address: '', description: '' };
+  const passed = route.params?.restaurant;
+  const restaurant = passed || restaurants[0] || { name: '', address: '', description: '' };
   const [restaurantName, setRestaurantName] = useState(restaurant.name);
   const [address, setAddress] = useState(restaurant.address);
   const [description, setDescription] = useState(restaurant.description || '');

@@ -8,7 +8,7 @@ export default function FavoriteRestaurantsScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => navigation.navigate('RestaurantDetails', { restaurant: item })}
+      onPress={() => navigation.navigate('Home', { screen: 'RestaurantDetails', params: { restaurant: item } })}
     >
       <Text style={styles.itemTitle}>{item.name}</Text>
       <Text style={styles.itemAddress}>{item.address}</Text>

@@ -10,6 +10,7 @@ export function RestaurantProvider({ children }) {
   const [restaurants, setRestaurants] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [reservations, setReservations] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     fetch(`${API_URL}/restaurants`)
@@ -19,6 +20,10 @@ export function RestaurantProvider({ children }) {
     fetch(`${API_URL}/reservations`)
       .then(res => res.json())
       .then(setReservations)
+      .catch(() => {});
+    fetch(`${API_URL}/reviews`)
+      .then(res => res.json())
+      .then(setReviews)
       .catch(() => {});
   }, []);
 
@@ -59,6 +64,15 @@ export function RestaurantProvider({ children }) {
     setRestaurants(prev => prev.map(r => r.id === id ? { ...r, ...data } : r));
   };
 
+  const deleteRestaurant = async (id) => {
+    await fetch(`${API_URL}/restaurants/${id}`, {
+      method: 'DELETE'
+    });
+    setRestaurants(prev => prev.filter(r => r.id !== id));
+    setReservations(prev => prev.filter(res => res.restaurantId !== id));
+    setReviews(prev => prev.filter(rv => rv.restaurantId !== id));
+  };
+
   const addReservation = async (reservation) => {
     const res = await fetch(`${API_URL}/reservations`, {
       method: 'POST',
@@ -70,8 +84,19 @@ export function RestaurantProvider({ children }) {
     setReservations(prev => [...prev, data]);
   };
 
+  const addReview = async (review) => {
+    const res = await fetch(`${API_URL}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(review)
+    });
+    if (!res.ok) throw new Error('Failed to add review');
+    const data = await res.json();
+    setReviews(prev => [...prev, data]);
+  };
+
   return (
-    <RestaurantContext.Provider value={{ restaurants, favorites, reservations, toggleFavorite, addRestaurant, updateRestaurant, addReservation }}>
+    <RestaurantContext.Provider value={{ restaurants, favorites, reservations, reviews, toggleFavorite, addRestaurant, updateRestaurant, deleteRestaurant, addReservation, addReview }}>
       {children}
     </RestaurantContext.Provider>
   );

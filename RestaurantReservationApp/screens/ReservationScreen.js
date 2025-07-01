@@ -13,6 +13,7 @@ export default function ReservationScreen({ route, navigation }) {
 
   const handleReservation = async () => {
     await addReservation({
+      restaurantId: restaurant.id,
       restaurantName: restaurant.name,
       date,
       time,
