@@ -1,6 +1,6 @@
 // screens/AdminRestaurantInfoScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function AdminRestaurantInfoScreen() {
@@ -22,7 +22,6 @@ export default function AdminRestaurantInfoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Restoran Bilgilerini Güncelle</Text>
       <TextInput
         style={styles.input}
         placeholder="Restoran Adı"
@@ -48,10 +47,9 @@ export default function AdminRestaurantInfoScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
-  title: { fontSize: 28, marginBottom: 20, textAlign: 'center' },
   input: {
-    height: 50, 
-    borderColor: '#ccc', 
+    height: 50,
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 15, 
     paddingHorizontal: 10, 
