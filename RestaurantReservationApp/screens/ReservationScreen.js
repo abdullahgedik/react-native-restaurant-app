@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function ReservationScreen({ route, navigation }) {
   // Eğer restoran bilgisi gönderildiyse alıyoruz
   const { restaurant } = route.params;
+  const { addReservation } = useRestaurant();
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [people, setPeople] = useState('');
 
-  const handleReservation = () => {
-    // Burada gerçek rezervasyon işlemleri API ile entegre edilebilir.
-    // Şimdilik basit bir uyarı mesajı ile rezervasyon bilgilerini gösterelim.
+  const handleReservation = async () => {
+    await addReservation({
+      restaurantName: restaurant.name,
+      date,
+      time,
+      people
+    });
     Alert.alert(
       'Rezervasyon Oluşturuldu',
       `Restoran: ${restaurant.name}\nTarih: ${date}\nSaat: ${time}\nKişi Sayısı: ${people}`,

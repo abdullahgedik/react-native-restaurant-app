@@ -1,13 +1,10 @@
 // screens/AdminReservationsScreen.js
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-
-const reservations = [
-  { id: '1', restaurantName: 'Lezzetli Restoran', customer: 'Ahmet', date: '09/05/2025', time: '19:00', people: 2 },
-  { id: '2', restaurantName: 'Nefis Mutfağım', customer: 'Mehmet', date: '10/05/2025', time: '20:00', people: 4 },
-];
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function AdminReservationsScreen() {
+  const { reservations } = useRestaurant();
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item.restaurantName} - {item.customer}</Text>

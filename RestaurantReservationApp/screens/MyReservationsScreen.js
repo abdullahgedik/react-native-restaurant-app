@@ -1,13 +1,10 @@
 // screens/MyReservationsScreen.js
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
-const reservations = [
-  { id: '1', restaurantName: 'Lezzetli Restoran', date: '09/05/2025', time: '19:00', people: 2 },
-  { id: '2', restaurantName: 'Nefis Mutfağım', date: '10/05/2025', time: '20:00', people: 4 },
-];
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function MyReservationsScreen({ navigation }) {
+  const { reservations } = useRestaurant();
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}

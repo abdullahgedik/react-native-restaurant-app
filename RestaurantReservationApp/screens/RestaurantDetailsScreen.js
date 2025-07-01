@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function RestaurantDetailsScreen({ route, navigation }) {
   const { restaurant } = route.params;
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { favorites, toggleFavorite, addReservation } = useRestaurant();
+  const isFavorite = favorites.some(r => r.id === restaurant.id);
 
   const handleAddFavorite = () => {
-    // Favori durumu tersine çevriliyor
-    setIsFavorite(!isFavorite);
+    toggleFavorite(restaurant);
     Alert.alert(
       isFavorite ? 'Favoriden Çıkarıldı' : 'Favorilere Eklendi',
       isFavorite ? 'Restoran favorilerden çıkarıldı.' : 'Restoran favorilere eklendi.'

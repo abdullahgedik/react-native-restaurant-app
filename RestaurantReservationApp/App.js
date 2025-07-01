@@ -12,6 +12,8 @@ import ProfileStackScreen from './screens/ProfileStackScreen';
 import AdminPanelScreen from './screens/AdminPanelScreen';
 import AdminReservationsScreen from './screens/AdminReservationsScreen';
 import AdminRestaurantInfoScreen from './screens/AdminRestaurantInfoScreen';
+import AddRestaurantScreen from './screens/AddRestaurantScreen';
+import { RestaurantProvider } from './contexts/RestaurantContext';
 
 const Tab = createBottomTabNavigator();
 const AdminStack = createNativeStackNavigator();
@@ -34,18 +36,24 @@ function AdminStackScreen() {
         component={AdminRestaurantInfoScreen}
         options={{ title: 'Restoran Bilgileri' }}
       />
+      <AdminStack.Screen
+        name="AddRestaurant"
+        component={AddRestaurantScreen}
+        options={{ title: 'Yeni Restoran' }}
+      />
     </AdminStack.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={HomeStackScreen}
-          options={{ title: 'Ana Sayfa' }}
+    <RestaurantProvider>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={{ title: 'Ana Sayfa' }}
         />
         <Tab.Screen
           name="Favorites"
@@ -68,6 +76,7 @@ export default function App() {
           options={{ title: 'Y\u00f6netici Paneli' }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </RestaurantProvider>
   );
 }

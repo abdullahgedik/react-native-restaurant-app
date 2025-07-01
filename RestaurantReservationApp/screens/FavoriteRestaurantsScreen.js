@@ -1,13 +1,10 @@
 // screens/FavoriteRestaurantsScreen.js
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
-const favorites = [
-  { id: '1', name: 'Lezzetli Restoran', address: 'İstanbul, Taksim' },
-  { id: '2', name: 'Nefis Mutfağım', address: 'Ankara, Çankaya' },
-];
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function FavoriteRestaurantsScreen({ navigation }) {
+  const { favorites } = useRestaurant();
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}

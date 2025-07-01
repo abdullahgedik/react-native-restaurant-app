@@ -1,13 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
-const restaurants = [
-  { id: '1', name: 'Lezzetli Restoran', address: 'İstanbul, Taksim' },
-  { id: '2', name: 'Nefis Mutfağım', address: 'Ankara, Çankaya' },
-  { id: '3', name: 'Enfes Yemekler', address: 'İzmir, Alsancak' },
-];
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function RestaurantListScreen({ navigation }) {
+  const { restaurants } = useRestaurant();
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}

@@ -1,13 +1,22 @@
 // screens/AdminRestaurantInfoScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function AdminRestaurantInfoScreen() {
-  const [restaurantName, setRestaurantName] = useState('Lezzetli Restoran');
-  const [address, setAddress] = useState('İstanbul, Taksim');
-  const [description, setDescription] = useState('En iyi lezzetler burada!');
+  const { restaurants, updateRestaurant } = useRestaurant();
+  const restaurant = restaurants[0] || { name: '', address: '', description: '' };
+  const [restaurantName, setRestaurantName] = useState(restaurant.name);
+  const [address, setAddress] = useState(restaurant.address);
+  const [description, setDescription] = useState(restaurant.description || '');
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
+    if (!restaurant.id) return;
+    await updateRestaurant(restaurant.id, {
+      name: restaurantName,
+      address,
+      description
+    });
     Alert.alert('Güncelleme Başarılı', 'Restoran bilgileri güncellendi.');
   };
 
