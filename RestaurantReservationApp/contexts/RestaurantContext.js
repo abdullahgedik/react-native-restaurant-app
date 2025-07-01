@@ -33,14 +33,21 @@ export function RestaurantProvider({ children }) {
   };
 
   const addRestaurant = async (restaurant) => {
-    const res = await fetch(`${API_URL}/restaurants`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(restaurant)
-    });
-    if (!res.ok) throw new Error('Failed to add restaurant');
-    const data = await res.json();
-    setRestaurants(prev => [...prev, data]);
+    try {
+      const res = await fetch(`${API_URL}/restaurants`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(restaurant)
+      });
+      if (!res.ok) throw new Error('Failed to add restaurant');
+      const data = await res.json();
+      setRestaurants(prev => [...prev, data]);
+    } catch (err) {
+      // Fallback to local state when API is unreachable
+      const local = { id: String(Date.now()), ...restaurant };
+      setRestaurants(prev => [...prev, local]);
+      throw err;
+    }
   };
 
   const updateRestaurant = async (id, data) => {
