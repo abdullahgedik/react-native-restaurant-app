@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RestaurantListScreen from './RestaurantListScreen';
 import RestaurantDetailsScreen from './RestaurantDetailsScreen';
 import ReservationScreen from './ReservationScreen';
+import ReviewScreen from './ReviewScreen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -20,10 +21,15 @@ export default function HomeStackScreen() {
         component={RestaurantDetailsScreen} 
         options={{ title: 'Restoran Detayları' }}
       />
-      <HomeStack.Screen 
-        name="Reservation" 
-        component={ReservationScreen} 
+      <HomeStack.Screen
+        name="Reservation"
+        component={ReservationScreen}
         options={{ title: 'Rezervasyon Oluştur' }}
+      />
+      <HomeStack.Screen
+        name="Review"
+        component={ReviewScreen}
+        options={{ title: 'Yorum Yap' }}
       />
     </HomeStack.Navigator>
   );
