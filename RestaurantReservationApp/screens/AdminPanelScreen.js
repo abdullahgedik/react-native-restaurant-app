@@ -8,6 +8,7 @@ export default function AdminPanelScreen({ navigation }) {
       <Text style={styles.title}>Restoran Yönetici Paneli</Text>
       <Button title="Rezervasyonları Görüntüle" onPress={() => navigation.navigate('AdminReservations')} />
       <Button title="Restoran Bilgilerini Güncelle" onPress={() => navigation.navigate('AdminRestaurantInfo')} />
+      <Button title="Yeni Restoran Ekle" onPress={() => navigation.navigate('AddRestaurant')} />
     </View>
   );
 }
