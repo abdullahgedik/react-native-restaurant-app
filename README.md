@@ -1,2 +1,2 @@
-# Restaurant Reservatian Mobile App
+# Restaurant Reservation Mobile App
 
