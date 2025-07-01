@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import Constants from 'expo-constants';
+
+const API_HOST = Constants.manifest?.debuggerHost?.split(':').shift() || 'localhost';
+const API_URL = `http://${API_HOST}:3001`;
 
 const RestaurantContext = createContext();
 
@@ -8,11 +12,11 @@ export function RestaurantProvider({ children }) {
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/restaurants')
+    fetch(`${API_URL}/restaurants`)
       .then(res => res.json())
       .then(setRestaurants)
       .catch(() => {});
-    fetch('http://localhost:3001/reservations')
+    fetch(`${API_URL}/reservations`)
       .then(res => res.json())
       .then(setReservations)
       .catch(() => {});
@@ -29,17 +33,18 @@ export function RestaurantProvider({ children }) {
   };
 
   const addRestaurant = async (restaurant) => {
-    const res = await fetch('http://localhost:3001/restaurants', {
+    const res = await fetch(`${API_URL}/restaurants`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(restaurant)
     });
+    if (!res.ok) throw new Error('Failed to add restaurant');
     const data = await res.json();
     setRestaurants(prev => [...prev, data]);
   };
 
   const updateRestaurant = async (id, data) => {
-    await fetch(`http://localhost:3001/restaurants/${id}`, {
+    await fetch(`${API_URL}/restaurants/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -48,11 +53,12 @@ export function RestaurantProvider({ children }) {
   };
 
   const addReservation = async (reservation) => {
-    const res = await fetch('http://localhost:3001/reservations', {
+    const res = await fetch(`${API_URL}/reservations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(reservation)
     });
+    if (!res.ok) throw new Error('Failed to add reservation');
     const data = await res.json();
     setReservations(prev => [...prev, data]);
   };

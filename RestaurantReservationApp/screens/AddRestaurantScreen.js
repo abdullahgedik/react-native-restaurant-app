@@ -9,10 +9,14 @@ export default function AddRestaurantScreen({ navigation }) {
 
   const handleAdd = async () => {
     if (!name || !address) return;
-    await addRestaurant({ name, address });
-    Alert.alert('Başarılı', 'Restoran eklendi.', [
-      { text: 'Tamam', onPress: () => navigation.goBack() }
-    ]);
+    try {
+      await addRestaurant({ name, address });
+      Alert.alert('Başarılı', 'Restoran eklendi.', [
+        { text: 'Tamam', onPress: () => navigation.goBack() }
+      ]);
+    } catch (e) {
+      Alert.alert('Hata', 'Restoran eklenemedi.');
+    }
   };
 
   return (
