@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
 import HomeStackScreen from './screens/HomeStackScreen'; // ya da HomeStackScreen'ı App.js içinde de tanımlayabilirsiniz
 
 // Diğer ekran bileşenlerini import edin:
@@ -52,7 +53,20 @@ function AdminStackScreen() {
 
 function AppTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = 'home';
+          if (route.name === 'Favorites') iconName = 'heart';
+          else if (route.name === 'Reservations') iconName = 'calendar';
+          else if (route.name === 'Profile') iconName = 'person';
+          else if (route.name === 'AdminPanel') iconName = 'settings';
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#e91e63',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
