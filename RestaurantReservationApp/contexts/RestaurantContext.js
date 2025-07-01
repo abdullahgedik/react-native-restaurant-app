@@ -46,7 +46,7 @@ export function RestaurantProvider({ children }) {
       // Fallback to local state when API is unreachable
       const local = { id: String(Date.now()), ...restaurant };
       setRestaurants(prev => [...prev, local]);
-      throw err;
+      // Do not rethrow so UI can succeed even when offline
     }
   };
 

@@ -28,7 +28,6 @@ export default function ReservationScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Rezervasyon Oluştur</Text>
       {restaurant && (
         <Text style={styles.restaurantName}>Restoran: {restaurant.name}</Text>
       )}
@@ -67,11 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center'
-  },
-  title: {
-    fontSize: 28,
-    marginBottom: 20,
-    textAlign: 'center'
   },
   restaurantName: {
     fontSize: 20,
