@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 
-const API_HOST = Constants.manifest?.debuggerHost?.split(':').shift() || 'localhost';
+const API_HOST =
+  Constants.expoConfig?.hostUri?.split(':').shift() ||
+  Constants.manifest?.debuggerHost?.split(':').shift() ||
+  'localhost';
 const API_URL = `http://${API_HOST}:3001`;
 
 const RestaurantContext = createContext();
@@ -56,18 +59,28 @@ export function RestaurantProvider({ children }) {
   };
 
   const updateRestaurant = async (id, data) => {
-    await fetch(`${API_URL}/restaurants/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    setRestaurants(prev => prev.map(r => r.id === id ? { ...r, ...data } : r));
+    try {
+      const res = await fetch(`${API_URL}/restaurants/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('update failed');
+    } catch {
+      // ignore network errors and update local state
+    }
+    setRestaurants(prev => prev.map(r => (r.id === id ? { ...r, ...data } : r)));
   };
 
   const deleteRestaurant = async (id) => {
-    await fetch(`${API_URL}/restaurants/${id}`, {
-      method: 'DELETE'
-    });
+    try {
+      const res = await fetch(`${API_URL}/restaurants/${id}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) throw new Error('delete failed');
+    } catch {
+      // ignore network errors
+    }
     setRestaurants(prev => prev.filter(r => r.id !== id));
     setReservations(prev => prev.filter(res => res.restaurantId !== id));
     setReviews(prev => prev.filter(rv => rv.restaurantId !== id));

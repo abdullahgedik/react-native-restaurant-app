@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 import { useRestaurant } from '../contexts/RestaurantContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function ManageRestaurantsScreen({ navigation }) {
   const { restaurants, deleteRestaurant } = useRestaurant();
+  const { user } = useAuth();
+
+  const userRestaurants = restaurants.filter(r => r.owner === user?.email);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -26,7 +30,7 @@ export default function ManageRestaurantsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={restaurants}
+        data={userRestaurants}
         renderItem={renderItem}
         keyExtractor={r => r.id}
         contentContainerStyle={styles.list}

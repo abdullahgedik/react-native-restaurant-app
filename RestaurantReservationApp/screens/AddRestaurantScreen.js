@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useRestaurant } from '../contexts/RestaurantContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function AddRestaurantScreen({ navigation }) {
   const { addRestaurant } = useRestaurant();
+  const { user } = useAuth();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
 
   const handleAdd = async () => {
     if (!name || !address) return;
     try {
-      await addRestaurant({ name, address });
+      await addRestaurant({ name, address, owner: user?.email });
       Alert.alert('Başarılı', 'Restoran eklendi.', [
         { text: 'Tamam', onPress: () => navigation.goBack() }
       ]);
@@ -39,7 +41,12 @@ export default function AddRestaurantScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: 'center' },
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
   input: {
     height: 50,
     borderColor: '#ccc',
