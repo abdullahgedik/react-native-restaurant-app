@@ -8,7 +8,7 @@ import HomeStackScreen from './screens/HomeStackScreen'; // ya da HomeStackScree
 // Diğer ekran bileşenlerini import edin:
 import FavoriteRestaurantsScreen from './screens/FavoriteRestaurantsScreen';
 import ReservationsStackScreen from './screens/ReservationsStackScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ProfileStackScreen from './screens/ProfileStackScreen';
 import AdminPanelScreen from './screens/AdminPanelScreen';
 import AdminReservationsScreen from './screens/AdminReservationsScreen';
 import AdminRestaurantInfoScreen from './screens/AdminRestaurantInfoScreen';
@@ -59,7 +59,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={ProfileStackScreen}
           options={{ title: 'Profil' }}
         />
         <Tab.Screen
