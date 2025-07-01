@@ -71,6 +71,7 @@ function AppTabs() {
         },
         tabBarActiveTintColor: '#e91e63',
         tabBarInactiveTintColor: 'gray',
+        headerShown: false,
       })}
     >
       <Tab.Screen

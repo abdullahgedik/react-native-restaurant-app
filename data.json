@@ -1,0 +1,9 @@
+{
+  "restaurants": [
+    { "id": "1", "name": "Lezzetli Restoran", "address": "İstanbul, Taksim", "owner": "admin@example.com" },
+    { "id": "2", "name": "Nefis Mutfağım", "address": "Ankara, Çankaya", "owner": "admin@example.com" },
+    { "id": "3", "name": "Enfes Yemekler", "address": "İzmir, Alsancak", "owner": "admin@example.com" }
+  ],
+  "reservations": [],
+  "reviews": []
+}

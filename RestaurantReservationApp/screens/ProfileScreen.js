@@ -8,8 +8,6 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>İsim:</Text>
-      <Text style={styles.value}>{user.name || user.email}</Text>
       <Text style={styles.label}>Email:</Text>
       <Text style={styles.value}>{user.email}</Text>
       <Button title="Şifre Güncelle" onPress={() => navigation.navigate('ChangePassword')} />

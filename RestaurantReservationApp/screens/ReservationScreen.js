@@ -12,6 +12,10 @@ export default function ReservationScreen({ route, navigation }) {
   const [customer, setCustomer] = useState('');
 
   const handleReservation = async () => {
+    if (!customer || !date || !time || !people) {
+      Alert.alert('Eksik Bilgi', 'Lütfen tüm alanları doldurun.');
+      return;
+    }
     await addReservation({
       restaurantId: restaurant.id,
       restaurantName: restaurant.name,
