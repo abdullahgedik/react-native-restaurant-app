@@ -21,7 +21,9 @@ export default function SplashScreen({ navigation }) {
         useNativeDriver: true,
       })
     ]).start(() => {
-      // Animasyon tamamlandığında kısa bir bekleme sonrası Login ekranına yönlendiriyoruz
+      // Animasyon tamamlandığında kısa bir bekleme sonrasında
+      // 'Login' adında bir rota tanımlıysa bu ekrana yönlendirilir
+      // (rota adı farklıysa burada ona göre güncellemeyi unutmayın)
       setTimeout(() => {
          navigation.replace('Login');
       }, 1000);
