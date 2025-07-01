@@ -14,15 +14,25 @@ export default function ManageRestaurantsScreen({ navigation }) {
       <Text style={styles.itemTitle}>{item.name}</Text>
       <Text style={styles.itemAddress}>{item.address}</Text>
       <View style={styles.actions}>
-        <Button
-          title="Düzenle"
-          onPress={() => navigation.navigate('AdminRestaurantInfo', { restaurant: item })}
-        />
-        <Button
-          title="Sil"
-          color="red"
-          onPress={() => deleteRestaurant(item.id)}
-        />
+        <View style={styles.button}>
+          <Button
+            title="Rezervasyonlar"
+            onPress={() => navigation.navigate('AdminReservations', { restaurantId: item.id })}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Düzenle"
+            onPress={() => navigation.navigate('AdminRestaurantInfo', { restaurant: item })}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Sil"
+            color="red"
+            onPress={() => deleteRestaurant(item.id)}
+          />
+        </View>
       </View>
     </View>
   );
@@ -54,5 +64,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
+  },
+  button: {
+    marginRight: 10,
   },
 });

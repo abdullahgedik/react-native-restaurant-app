@@ -7,6 +7,14 @@ const API_HOST =
   'localhost';
 const API_URL = `http://${API_HOST}:3001`;
 
+const fetchWithTimeout = (url, options, timeout = 3000) =>
+  Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), timeout)
+    ),
+  ]);
+
 const RestaurantContext = createContext();
 
 export function RestaurantProvider({ children }) {
@@ -42,7 +50,7 @@ export function RestaurantProvider({ children }) {
 
   const addRestaurant = async (restaurant) => {
     try {
-      const res = await fetch(`${API_URL}/restaurants`, {
+      const res = await fetchWithTimeout(`${API_URL}/restaurants`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(restaurant)
@@ -60,7 +68,7 @@ export function RestaurantProvider({ children }) {
 
   const updateRestaurant = async (id, data) => {
     try {
-      const res = await fetch(`${API_URL}/restaurants/${id}`, {
+      const res = await fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -74,7 +82,7 @@ export function RestaurantProvider({ children }) {
 
   const deleteRestaurant = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/restaurants/${id}`, {
+      const res = await fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
         method: 'DELETE'
       });
       if (!res.ok) throw new Error('delete failed');

@@ -1,6 +1,6 @@
 // LoginScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function LoginScreen({ navigation }) {
@@ -9,8 +9,9 @@ export default function LoginScreen({ navigation }) {
   const { login } = useAuth();
 
   const handleLogin = () => {
-    // Gerçek doğrulama işlemleri eklenebilir.
-    login(email);
+    if (!login(email, password)) {
+      Alert.alert('Hata', 'Geçersiz email veya şifre');
+    }
   };
 
   return (

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  const { register } = useAuth();
 
   const handleRegister = () => {
-    // Gerçek kayıt işlemleri burada yapılabilir; şimdilik kullanıcıyı giriş yapmış varsayıyoruz.
-    login(email);
+    if (!register(email, password)) {
+      Alert.alert('Hata', 'Bu eposta zaten kullanılıyor.');
+    }
   };
 
   return (

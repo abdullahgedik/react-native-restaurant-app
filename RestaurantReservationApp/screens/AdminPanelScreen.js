@@ -5,14 +5,23 @@ import { View, Button, StyleSheet } from 'react-native';
 export default function AdminPanelScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Button title="Rezervasyonları Görüntüle" onPress={() => navigation.navigate('AdminReservations')} />
-      <Button title="Restoran Bilgilerini Güncelle" onPress={() => navigation.navigate('AdminRestaurantInfo')} />
-      <Button title="Restoranları Yönet" onPress={() => navigation.navigate('ManageRestaurants')} />
-      <Button title="Yeni Restoran Ekle" onPress={() => navigation.navigate('AddRestaurant')} />
+      <View style={styles.buttonContainer}>
+        <Button title="Rezervasyonları Görüntüle" onPress={() => navigation.navigate('AdminReservations')} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Restoran Bilgilerini Güncelle" onPress={() => navigation.navigate('AdminRestaurantInfo')} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Restoranları Yönet" onPress={() => navigation.navigate('ManageRestaurants')} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Yeni Restoran Ekle" onPress={() => navigation.navigate('AddRestaurant')} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
+  buttonContainer: { marginBottom: 15 },
 });

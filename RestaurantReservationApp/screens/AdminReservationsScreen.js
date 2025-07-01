@@ -3,8 +3,12 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useRestaurant } from '../contexts/RestaurantContext';
 
-export default function AdminReservationsScreen() {
+export default function AdminReservationsScreen({ route }) {
   const { reservations } = useRestaurant();
+  const restaurantId = route.params?.restaurantId;
+  const data = restaurantId
+    ? reservations.filter(r => r.restaurantId === restaurantId)
+    : reservations;
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item.restaurantName} - {item.customer}</Text>
@@ -14,8 +18,8 @@ export default function AdminReservationsScreen() {
 
   return (
     <View style={styles.container}>
-      <FlatList 
-        data={reservations}
+      <FlatList
+        data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}

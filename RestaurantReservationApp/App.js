@@ -82,7 +82,7 @@ function AppTabs() {
       <Tab.Screen
         name="Favorites"
         component={FavoriteRestaurantsScreen}
-        options={{ title: 'Favoriler' }}
+        options={{ title: 'Favoriler', headerShown: true }}
       />
       <Tab.Screen
         name="Reservations"
