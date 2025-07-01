@@ -8,11 +8,12 @@ export default function AddRestaurantScreen({ navigation }) {
   const { user } = useAuth();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleAdd = async () => {
     if (!name || !address) return;
     try {
-      await addRestaurant({ name, address, owner: user?.email });
+      await addRestaurant({ name, address, description, owner: user?.email });
       Alert.alert('Başarılı', 'Restoran eklendi.', [
         { text: 'Tamam', onPress: () => navigation.goBack() }
       ]);
@@ -34,6 +35,12 @@ export default function AddRestaurantScreen({ navigation }) {
         placeholder="Adres"
         value={address}
         onChangeText={setAddress}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Açıklama"
+        value={description}
+        onChangeText={setDescription}
       />
       <Button title="Ekle" onPress={handleAdd} />
     </View>

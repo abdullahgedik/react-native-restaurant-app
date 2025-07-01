@@ -7,6 +7,12 @@ export default function RestaurantDetailsScreen({ route, navigation }) {
   const { favorites, toggleFavorite, reviews } = useRestaurant();
   const isFavorite = favorites.some(r => r.id === restaurant.id);
   const restaurantReviews = reviews.filter(r => r.restaurantId === restaurant.id);
+  const rating = restaurantReviews.length
+    ? (
+        restaurantReviews.reduce((s, r) => s + Number(r.rating || 0), 0) /
+        restaurantReviews.length
+      ).toFixed(1)
+    : '0';
 
   const handleAddFavorite = () => {
     toggleFavorite(restaurant);
@@ -20,28 +26,29 @@ export default function RestaurantDetailsScreen({ route, navigation }) {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>{restaurant.name}</Text>
       <Text style={styles.address}>{restaurant.address}</Text>
-      <Text style={styles.description}>
-        Bu restoran hakkında detaylı bilgileri buraya ekleyebilirsin.
-      </Text>
-      <Button
-        title="Rezervasyon Oluştur"
-        onPress={() => navigation.navigate('Reservation', { restaurant })}
-      />
-      <View style={styles.buttonSpacing} />
-      <Button
-        title="Yorum Yap"
-        onPress={() => navigation.navigate('Review', { restaurant })}
-      />
+      {restaurant.description ? (
+        <Text style={styles.description}>{restaurant.description}</Text>
+      ) : null}
+      <Text style={styles.rating}>Puan: {rating} ({restaurantReviews.length})</Text>
+      <View style={styles.actions}>
+        <Button
+          title="Rezervasyon Oluştur"
+          onPress={() => navigation.navigate('Reservation', { restaurant })}
+        />
+        <Button
+          title="Yorum Yap"
+          onPress={() => navigation.navigate('Review', { restaurant })}
+        />
+        <Button
+          title={isFavorite ? 'Favorilerden Çıkar' : 'Favorilere Ekle'}
+          onPress={handleAddFavorite}
+        />
+      </View>
       {restaurantReviews.map(r => (
         <View key={r.id} style={styles.reviewContainer}>
           <Text style={styles.reviewText}>{r.comment}</Text>
         </View>
       ))}
-      <View style={styles.buttonSpacing} />
-      <Button
-        title={isFavorite ? "Favorilerden Çıkar" : "Favorilere Ekle"}
-        onPress={handleAddFavorite}
-      />
     </ScrollView>
   );
 }
@@ -70,8 +77,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  buttonSpacing: {
-    height: 15,
+  rating: { fontSize: 16, marginBottom: 20 },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    marginBottom: 20,
   },
   reviewContainer: {
     alignSelf: 'stretch',
