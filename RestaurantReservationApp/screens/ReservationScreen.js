@@ -9,13 +9,15 @@ export default function ReservationScreen({ route, navigation }) {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [people, setPeople] = useState('');
+  const [customer, setCustomer] = useState('');
 
   const handleReservation = async () => {
     await addReservation({
       restaurantName: restaurant.name,
       date,
       time,
-      people
+      people,
+      customer
     });
     Alert.alert(
       'Rezervasyon Oluşturuldu',
@@ -30,6 +32,12 @@ export default function ReservationScreen({ route, navigation }) {
       {restaurant && (
         <Text style={styles.restaurantName}>Restoran: {restaurant.name}</Text>
       )}
+      <TextInput
+        style={styles.input}
+        placeholder="Adınız"
+        value={customer}
+        onChangeText={setCustomer}
+      />
       <TextInput
         style={styles.input}
         placeholder="Tarih (GG/AA/YYYY)"

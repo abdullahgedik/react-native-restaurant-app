@@ -13,3 +13,12 @@ After installing, you can start the Expo development server:
 npm start
 ```
 
+## Backend API
+
+This repository also includes a small Express based API used for restaurant and reservation data. From the repository root install its dependencies and start the server:
+
+```bash
+npm install
+npm start # runs server.js on port 3001
+```
+
