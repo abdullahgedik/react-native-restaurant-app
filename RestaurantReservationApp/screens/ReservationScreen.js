@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRestaurant } from '../contexts/RestaurantContext';
 
 export default function ReservationScreen({ route, navigation }) {
   // Eğer restoran bilgisi gönderildiyse alıyoruz
   const { restaurant } = route.params;
   const { addReservation } = useRestaurant();
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [showDate, setShowDate] = useState(false);
+  const [time, setTime] = useState(new Date());
+  const [showTime, setShowTime] = useState(false);
   const [people, setPeople] = useState('');
   const [customer, setCustomer] = useState('');
 
-  const handleReservation = async () => {
-    if (!customer || !date || !time || !people) {
+  const handleReservation = () => {
+    if (!customer || !people) {
       Alert.alert('Eksik Bilgi', 'Lütfen tüm alanları doldurun.');
       return;
     }
     try {
-      await addReservation({
+      addReservation({
         restaurantId: restaurant.id,
         restaurantName: restaurant.name,
-        date,
-        time,
+        date: date.toISOString(),
+        time: time.toISOString(),
         people,
         customer,
       });
       Alert.alert(
         'Rezervasyon Oluşturuldu',
-        `Restoran: ${restaurant.name}\nTarih: ${date}\nSaat: ${time}\nKişi Sayısı: ${people}`,
+        `Restoran: ${restaurant.name}\nTarih: ${date.toLocaleDateString()}\nSaat: ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}\nKişi Sayısı: ${people}`,
         [{ text: 'Tamam', onPress: () => navigation.goBack() }]
       );
     } catch (e) {
@@ -46,18 +49,40 @@ export default function ReservationScreen({ route, navigation }) {
         value={customer}
         onChangeText={setCustomer}
       />
-      <TextInput
+      <TouchableOpacity
         style={styles.input}
-        placeholder="Tarih (GG/AA/YYYY)"
-        value={date}
-        onChangeText={setDate}
-      />
-      <TextInput
+        onPress={() => setShowDate(true)}
+      >
+        <Text>{date.toLocaleDateString()}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
         style={styles.input}
-        placeholder="Saat (SS:DD)"
-        value={time}
-        onChangeText={setTime}
-      />
+        onPress={() => setShowTime(true)}
+      >
+        <Text>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+      </TouchableOpacity>
+      {showDate && (
+        <DateTimePicker
+          value={date}
+          mode="date"
+          display="default"
+          onChange={(e, d) => {
+            setShowDate(false);
+            if (d) setDate(d);
+          }}
+        />
+      )}
+      {showTime && (
+        <DateTimePicker
+          value={time}
+          mode="time"
+          display="default"
+          onChange={(e, t) => {
+            setShowTime(false);
+            if (t) setTime(t);
+          }}
+        />
+      )}
       <TextInput
         style={styles.input}
         placeholder="Kişi Sayısı"

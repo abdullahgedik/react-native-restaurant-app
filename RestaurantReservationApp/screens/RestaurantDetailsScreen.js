@@ -46,6 +46,7 @@ export default function RestaurantDetailsScreen({ route, navigation }) {
       </View>
       {restaurantReviews.map(r => (
         <View key={r.id} style={styles.reviewContainer}>
+          <Text style={styles.reviewRating}>Puan: {r.rating}</Text>
           <Text style={styles.reviewText}>{r.comment}</Text>
         </View>
       ))}
@@ -95,5 +96,10 @@ const styles = StyleSheet.create({
   reviewText: {
     fontSize: 14,
     color: '#333',
+  },
+  reviewRating: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
 });

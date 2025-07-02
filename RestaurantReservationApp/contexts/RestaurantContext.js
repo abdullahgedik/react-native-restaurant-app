@@ -48,22 +48,25 @@ export function RestaurantProvider({ children }) {
     });
   };
 
-  const addRestaurant = async (restaurant) => {
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/restaurants`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(restaurant)
-      });
-      if (!res.ok) throw new Error('Failed to add restaurant');
-      const data = await res.json();
-      setRestaurants(prev => [...prev, data]);
-    } catch (err) {
-      // Fallback to local state when API is unreachable
-      const local = { id: String(Date.now()), ...restaurant };
-      setRestaurants(prev => [...prev, local]);
-      // Do not rethrow so UI can succeed even when offline
-    }
+  const addRestaurant = (restaurant) => {
+    const local = { id: String(Date.now()), ...restaurant };
+    setRestaurants(prev => [...prev, local]);
+    // try to persist on the server but don't block UI
+    fetchWithTimeout(`${API_URL}/restaurants`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(restaurant)
+    })
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (data) {
+          // replace local temp item with server response
+          setRestaurants(prev =>
+            prev.map(r => (r.id === local.id ? data : r))
+          );
+        }
+      })
+      .catch(() => {});
   };
 
   const updateRestaurant = async (id, data) => {
@@ -94,36 +97,42 @@ export function RestaurantProvider({ children }) {
     setReviews(prev => prev.filter(rv => rv.restaurantId !== id));
   };
 
-  const addReservation = async (reservation) => {
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/reservations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(reservation)
-      });
-      if (!res.ok) throw new Error('Failed to add reservation');
-      const data = await res.json();
-      setReservations(prev => [...prev, data]);
-    } catch (err) {
-      const local = { id: String(Date.now()), ...reservation };
-      setReservations(prev => [...prev, local]);
-    }
+  const addReservation = (reservation) => {
+    const local = { id: String(Date.now()), ...reservation };
+    setReservations(prev => [...prev, local]);
+    fetchWithTimeout(`${API_URL}/reservations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(reservation)
+    })
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (data) {
+          setReservations(prev =>
+            prev.map(r => (r.id === local.id ? data : r))
+          );
+        }
+      })
+      .catch(() => {});
   };
 
-  const addReview = async (review) => {
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/reviews`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(review)
-      });
-      if (!res.ok) throw new Error('Failed to add review');
-      const data = await res.json();
-      setReviews(prev => [...prev, data]);
-    } catch (err) {
-      const local = { id: String(Date.now()), ...review };
-      setReviews(prev => [...prev, local]);
-    }
+  const addReview = (review) => {
+    const local = { id: String(Date.now()), ...review };
+    setReviews(prev => [...prev, local]);
+    fetchWithTimeout(`${API_URL}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(review)
+    })
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (data) {
+          setReviews(prev =>
+            prev.map(r => (r.id === local.id ? data : r))
+          );
+        }
+      })
+      .catch(() => {});
   };
 
   return (
