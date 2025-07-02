@@ -17,12 +17,16 @@ export default function FavoriteRestaurantsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <FlatList 
-        data={favorites}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+      {favorites.length === 0 ? (
+        <Text style={styles.empty}>Favori restoran bulunmamakta.</Text>
+      ) : (
+        <FlatList
+          data={favorites}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </View>
   );
 }
@@ -38,4 +42,5 @@ const styles = StyleSheet.create({
   },
   itemTitle: { fontSize: 18, fontWeight: 'bold' },
   itemAddress: { fontSize: 14, color: '#666' },
+  empty: { textAlign: 'center', marginTop: 20, fontSize: 16 },
 });

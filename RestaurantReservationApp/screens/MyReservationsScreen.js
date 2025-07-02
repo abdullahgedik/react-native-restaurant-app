@@ -17,12 +17,16 @@ export default function MyReservationsScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <FlatList 
-        data={reservations}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+      {reservations.length === 0 ? (
+        <Text style={styles.empty}>Aktif rezervasyonunuz yok.</Text>
+      ) : (
+        <FlatList
+          data={reservations}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </View>
   );
 }
@@ -38,4 +42,5 @@ const styles = StyleSheet.create({
   },
   itemTitle: { fontSize: 18, fontWeight: 'bold' },
   itemDetails: { fontSize: 14, color: '#666' },
+  empty: { textAlign: 'center', marginTop: 20, fontSize: 16 },
 });

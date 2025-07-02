@@ -69,32 +69,29 @@ export function RestaurantProvider({ children }) {
       .catch(() => {});
   };
 
-  const updateRestaurant = async (id, data) => {
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error('update failed');
-    } catch {
-      // ignore network errors and update local state
-    }
+  const updateRestaurant = (id, data) => {
+    // update local state immediately
     setRestaurants(prev => prev.map(r => (r.id === id ? { ...r, ...data } : r)));
+
+    // attempt to persist changes but don't block UI
+    fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(() => {});
   };
 
-  const deleteRestaurant = async (id) => {
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error('delete failed');
-    } catch {
-      // ignore network errors
-    }
+  const deleteRestaurant = (id) => {
+    // immediately remove from local state
     setRestaurants(prev => prev.filter(r => r.id !== id));
+    setFavorites(prev => prev.filter(f => f.id !== id));
     setReservations(prev => prev.filter(res => res.restaurantId !== id));
     setReviews(prev => prev.filter(rv => rv.restaurantId !== id));
+
+    // try to delete on server without blocking UI
+    fetchWithTimeout(`${API_URL}/restaurants/${id}`, {
+      method: 'DELETE'
+    }).catch(() => {});
   };
 
   const addReservation = (reservation) => {
