@@ -80,9 +80,10 @@ const styles = StyleSheet.create({
   rating: { fontSize: 16, marginBottom: 20 },
   actions: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignSelf: 'stretch',
     marginBottom: 20,
+    flexWrap: 'wrap',
   },
   reviewContainer: {
     alignSelf: 'stretch',

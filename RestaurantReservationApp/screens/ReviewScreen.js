@@ -9,16 +9,19 @@ export default function ReviewScreen({ route, navigation }) {
   const [comment, setComment] = useState('');
   const { addReview } = useRestaurant();
 
-  const handleSubmitReview = () => {
-    addReview({
-      restaurantId: restaurant.id,
-      rating,
-      comment
-    }).then(() => {
+  const handleSubmitReview = async () => {
+    try {
+      await addReview({
+        restaurantId: restaurant.id,
+        rating,
+        comment,
+      });
       Alert.alert('Teşekkürler', 'Değerlendirmeniz gönderildi.', [
-        { text: 'Tamam', onPress: () => navigation.goBack() }
+        { text: 'Tamam', onPress: () => navigation.goBack() },
       ]);
-    });
+    } catch (e) {
+      Alert.alert('Hata', 'Yorum gönderilemedi.');
+    }
   };
 
   return (

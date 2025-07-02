@@ -16,19 +16,23 @@ export default function ReservationScreen({ route, navigation }) {
       Alert.alert('Eksik Bilgi', 'Lütfen tüm alanları doldurun.');
       return;
     }
-    await addReservation({
-      restaurantId: restaurant.id,
-      restaurantName: restaurant.name,
-      date,
-      time,
-      people,
-      customer
-    });
-    Alert.alert(
-      'Rezervasyon Oluşturuldu',
-      `Restoran: ${restaurant.name}\nTarih: ${date}\nSaat: ${time}\nKişi Sayısı: ${people}`,
-      [{ text: 'Tamam', onPress: () => navigation.goBack() }]
-    );
+    try {
+      await addReservation({
+        restaurantId: restaurant.id,
+        restaurantName: restaurant.name,
+        date,
+        time,
+        people,
+        customer,
+      });
+      Alert.alert(
+        'Rezervasyon Oluşturuldu',
+        `Restoran: ${restaurant.name}\nTarih: ${date}\nSaat: ${time}\nKişi Sayısı: ${people}`,
+        [{ text: 'Tamam', onPress: () => navigation.goBack() }]
+      );
+    } catch (e) {
+      Alert.alert('Hata', 'Rezervasyon oluşturulamadı.');
+    }
   };
 
   return (

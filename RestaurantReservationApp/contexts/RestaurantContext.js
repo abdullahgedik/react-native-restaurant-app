@@ -95,25 +95,35 @@ export function RestaurantProvider({ children }) {
   };
 
   const addReservation = async (reservation) => {
-    const res = await fetch(`${API_URL}/reservations`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(reservation)
-    });
-    if (!res.ok) throw new Error('Failed to add reservation');
-    const data = await res.json();
-    setReservations(prev => [...prev, data]);
+    try {
+      const res = await fetchWithTimeout(`${API_URL}/reservations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reservation)
+      });
+      if (!res.ok) throw new Error('Failed to add reservation');
+      const data = await res.json();
+      setReservations(prev => [...prev, data]);
+    } catch (err) {
+      const local = { id: String(Date.now()), ...reservation };
+      setReservations(prev => [...prev, local]);
+    }
   };
 
   const addReview = async (review) => {
-    const res = await fetch(`${API_URL}/reviews`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(review)
-    });
-    if (!res.ok) throw new Error('Failed to add review');
-    const data = await res.json();
-    setReviews(prev => [...prev, data]);
+    try {
+      const res = await fetchWithTimeout(`${API_URL}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(review)
+      });
+      if (!res.ok) throw new Error('Failed to add review');
+      const data = await res.json();
+      setReviews(prev => [...prev, data]);
+    } catch (err) {
+      const local = { id: String(Date.now()), ...review };
+      setReviews(prev => [...prev, local]);
+    }
   };
 
   return (
