@@ -8,6 +8,15 @@ export default function RegisterScreen({ navigation }) {
   const { register } = useAuth();
 
   const handleRegister = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Hata', 'Lütfen geçerli bir eposta girin.');
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert('Hata', 'Şifre en az 6 karakter olmalıdır.');
+      return;
+    }
     if (!register(email, password)) {
       Alert.alert('Hata', 'Bu eposta zaten kullanılıyor.');
     }

@@ -10,10 +10,10 @@ export default function AddRestaurantScreen({ navigation }) {
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleAdd = async () => {
+  const handleAdd = () => {
     if (!name || !address) return;
     try {
-      await addRestaurant({ name, address, description, owner: user?.email });
+      addRestaurant({ name, address, description, owner: user?.email });
       Alert.alert('Başarılı', 'Restoran eklendi.', [
         {
           text: 'Tamam',
