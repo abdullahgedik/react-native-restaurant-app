@@ -6,12 +6,6 @@ export default function AdminPanelScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <Button title="Rezervasyonları Görüntüle" onPress={() => navigation.navigate('AdminReservations')} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Restoran Bilgilerini Güncelle" onPress={() => navigation.navigate('AdminRestaurantInfo')} />
-      </View>
-      <View style={styles.buttonContainer}>
         <Button title="Restoranları Yönet" onPress={() => navigation.navigate('ManageRestaurants')} />
       </View>
       <View style={styles.buttonContainer}>
