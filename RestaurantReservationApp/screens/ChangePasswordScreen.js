@@ -1,15 +1,21 @@
 // screens/ChangePasswordScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function ChangePasswordScreen({ navigation }) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { changePassword } = useAuth();
 
   const handleChangePassword = () => {
     if (newPassword !== confirmPassword) {
       Alert.alert('Hata', 'Yeni şifre ve onay şifresi eşleşmiyor.');
+      return;
+    }
+    if (!changePassword(currentPassword, newPassword)) {
+      Alert.alert('Hata', 'Mevcut şifre yanlış.');
       return;
     }
     Alert.alert('Başarılı', 'Şifreniz güncellendi.', [

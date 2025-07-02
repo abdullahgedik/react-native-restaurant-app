@@ -26,10 +26,25 @@ export function AuthProvider({ children }) {
     return true;
   };
 
+  const changePassword = (currentPassword, newPassword) => {
+    if (!user) return false;
+    let success = false;
+    setUsers(prev =>
+      prev.map(u => {
+        if (u.email === user.email && u.password === currentPassword) {
+          success = true;
+          return { ...u, password: newPassword };
+        }
+        return u;
+      })
+    );
+    return success;
+  };
+
   const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, changePassword, logout }}>
       {children}
     </AuthContext.Provider>
   );
