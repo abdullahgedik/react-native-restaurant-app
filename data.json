@@ -1,8 +1,26 @@
 {
   "restaurants": [
-    { "id": "1", "name": "Lezzetli Restoran", "address": "İstanbul, Taksim", "owner": "admin@example.com" },
-    { "id": "2", "name": "Nefis Mutfağım", "address": "Ankara, Çankaya", "owner": "admin@example.com" },
-    { "id": "3", "name": "Enfes Yemekler", "address": "İzmir, Alsancak", "owner": "admin@example.com" }
+    {
+      "id": "1",
+      "name": "Lezzetli Restoran",
+      "address": "İstanbul, Taksim",
+      "owner": "admin@example.com",
+      "description": "Geleneksel Türk yemekleri"
+    },
+    {
+      "id": "2",
+      "name": "Nefis Mutfağım",
+      "address": "Ankara, Çankaya",
+      "owner": "admin@example.com",
+      "description": "Ev yapımı lezzetler"
+    },
+    {
+      "id": "3",
+      "name": "Enfes Yemekler",
+      "address": "İzmir, Alsancak",
+      "owner": "admin@example.com",
+      "description": "Ege mutfağından örnekler"
+    }
   ],
   "reservations": [],
   "reviews": []
