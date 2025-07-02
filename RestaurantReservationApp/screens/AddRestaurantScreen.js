@@ -15,7 +15,13 @@ export default function AddRestaurantScreen({ navigation }) {
     try {
       await addRestaurant({ name, address, description, owner: user?.email });
       Alert.alert('Başarılı', 'Restoran eklendi.', [
-        { text: 'Tamam', onPress: () => navigation.goBack() }
+        {
+          text: 'Tamam',
+          onPress: () => {
+            if (navigation.canGoBack()) navigation.goBack();
+            else navigation.navigate('AdminPanel');
+          },
+        },
       ]);
     } catch (e) {
       Alert.alert('Hata', 'Restoran eklenemedi.');
