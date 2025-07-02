@@ -31,8 +31,8 @@ app.get('/restaurants', (req, res) => {
 });
 
 app.post('/restaurants', (req, res) => {
-  const { name, address, owner } = req.body;
-  const newRestaurant = { id: String(Date.now()), name, address, owner };
+  const { name, address, owner, description } = req.body;
+  const newRestaurant = { id: String(Date.now()), name, address, owner, description };
   restaurants.push(newRestaurant);
   saveData();
   res.status(201).json(newRestaurant);

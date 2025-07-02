@@ -22,3 +22,6 @@ npm install
 npm start # runs server.js on port 3001
 ```
 
+Run the mobile app and API in separate terminals so both processes stay
+active while you use the application.
+
